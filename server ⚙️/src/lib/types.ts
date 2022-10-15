@@ -1,5 +1,12 @@
 import { ObjectId, Collection } from 'mongodb'
 
+export interface Viewer {
+  _id?: string;
+  token?: string;
+  avatrId?: string;
+  walletId?: string;
+  didRequest: boolean;
+}
 export enum ListingType {
   House = 'HOUSE',
   Apartment = "APARTMENT"
