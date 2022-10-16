@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { Layout } from 'antd';
+import { Layout, Affix } from 'antd';
 import { Viewer } from './lib/types';
-import { Listings, Home, Host, Listing, NotFound, User, Login } from "./sections"
+import { Listings, Home, Host, Listing, NotFound, User, Login, AppHeader } from "./sections"
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client"
 import './styles/index.css'
 
@@ -26,6 +26,9 @@ const App = () => {
     return (
         <Router>
             <Layout id="app">
+                <Affix offsetTop={0} className="app__affix-header" >
+                    <AppHeader viewer={viewer} setViewer={setViewer} />
+                </Affix>
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/host" element={<Host />} />
