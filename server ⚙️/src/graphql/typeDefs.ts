@@ -60,7 +60,6 @@ type Query{
   authUrl:String!
   listings: [Listing!]!
   user(id:ID!):User!
-  
 }
 
 input LoginInput {

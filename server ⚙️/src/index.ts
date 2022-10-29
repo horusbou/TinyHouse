@@ -30,4 +30,3 @@ const main = async (app: Application, port = process.env.PORT) => {
 
 main(express())
 
-
