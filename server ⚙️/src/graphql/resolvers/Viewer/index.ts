@@ -129,7 +129,7 @@ function logOut(_root: undefined, _args: {}, { res }: { res: Response }): Viewer
     throw new Error(`Failed to log out: ${error}`)
   }
 }
-export const viewerResolvers = {
+export const ViewerResolvers = {
   Viewer: {
     id: (viewer: Viewer): string | undefined => viewer._id,
     hasWallet: (viewer: Viewer): true | undefined => viewer.walletId ? true : undefined

@@ -1,6 +1,12 @@
 import { gql } from "apollo-server-express"
 
 export const typeDefs = gql`
+
+enum ListingType{
+    APARTMENT
+    HOUSE
+}
+
 type Listing {
     id: ID!
     title: String!
@@ -8,10 +14,40 @@ type Listing {
     address: String!
     price: Int!
     numOfGuests: Int!
-    numOfBeds: Int!
-    numOfBaths: Int!
-    rating: Int!
-  }
+    host:User!
+    type:ListingType
+    city:String!
+    bookings(limit:Int!,page:Int!):Bookings
+    bookingsIndex:String!
+}
+
+type Booking{
+   id:ID!
+   Listing:Listing!
+   tenant:User!
+   checkIn:String!
+   checkOut:String!
+}
+
+type Bookings{
+    total:Int!
+    result:[Booking!]!
+}
+type Listings{
+    total:Int!
+    resilt:[Listing!]!
+}
+
+type User{
+  id: String!
+  name: String!
+  avatar: String!
+  contact: String!
+  hasWallet: Boolean!
+  income: Int
+  bookings(limit:Int!,page:Int!): Bookings
+  listings(limit:Int!,page:Int!): Listings!
+}
 
 type Viewer{
   id:ID
@@ -23,6 +59,8 @@ type Viewer{
 type Query{
   authUrl:String!
   listings: [Listing!]!
+  user(id:ID!):User!
+  
 }
 
 input LoginInput {

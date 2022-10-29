@@ -50,6 +50,7 @@ export interface User {
   listings: ObjectId[];
 }
 
+
 export interface Booking {
   _id: ObjectId;
   listing: ObjectId;
