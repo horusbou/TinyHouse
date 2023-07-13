@@ -2,6 +2,7 @@ import { UserArgs, UserBookingsArgs, UserBookingsData, UserListingsData, UserLis
 import { Database, User } from "../../../lib/types";
 import { authorize } from "../../../lib/utils"
 import { Request } from "express";
+import { Collection } from "mongodb";
 
 export const UserResolvers = {
   Query: {
@@ -59,11 +60,12 @@ export const UserResolvers = {
         });
 
 
-        cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0)
+        data.total = await cursor.count()
+        cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0);
         cursor = cursor.limit(limit);
 
-        data.total = await cursor.count();
-        data.result = await cursor.toArray()
+        data.result = await cursor.toArray();
+
 
         return data;
       } catch (error: any) {
