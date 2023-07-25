@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 import { Database, Listing, User } from "../../../lib/types";
 import { authorize } from "../../../lib/utils";
-import { ListingArgs,ListingBookingsArgs,ListingBookingsData } from "./types";
+import { ListingArgs,ListingBookingsArgs,ListingBookingsData, ListingsFilter, ListingsArgs, ListingsData } from "./types";
 import { Request } from "express";
 
 export const ListingResolvers = {
@@ -22,6 +22,32 @@ export const ListingResolvers = {
             } catch (error) {
                 throw new Error(`failed to query listing: ${error}`)
             }
+        },
+        listings:async (_root:undefined,{filter,limit,page}:ListingsArgs,{db}:{db:Database}):Promise<ListingsData|null>=>{
+            try {
+                const data: ListingsData = {
+                  total: 0,
+                  result: []
+                }
+
+                let cursor = db.listings.find({});
+                if(filter && filter === ListingsFilter.PRICE_HIGH_TO_LOW){
+                    cursor = cursor.sort({price:1}); // 1 === asc
+                }
+                else if(filter && filter=== ListingsFilter.PRICE_LOW_TO_HIGH){
+                    cursor = cursor.sort({price:-1}); // -1 === desc
+                }
+
+                data.total = await cursor.count()
+                cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0);
+                cursor = cursor.limit(limit);
+
+                data.result = await cursor.toArray();
+
+                return data;
+              } catch (error: any) {
+                throw new Error("Failed to query user listings" + error.toString())
+              }
         }
     },
     Listing:{

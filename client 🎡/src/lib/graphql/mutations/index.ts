@@ -1,2 +1,2 @@
-export * from './LogOut'
-export * from './Login'
+export * from "./LogOut";
+export * from "./Login";

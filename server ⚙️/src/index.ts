@@ -23,10 +23,7 @@ const main = async (app: Application, port = process.env.PORT) => {
   await server.start();
   server.applyMiddleware({ app, path: '/api' })
 
-
-
   app.listen(port, () => console.log('server is running'))
 }
 
 main(express())
-
